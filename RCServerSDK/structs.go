@@ -288,7 +288,7 @@ type TemplateMessage struct {
 
 type IMessage interface {
 	GetType() string
-	SetType(messageType string)
+	// SetType(messageType string)
 }
 
 /**
@@ -445,6 +445,22 @@ func (self *CmdNtfMessage) GetType() string {
 }
 func (self *CmdNtfMessage) SetType(messageType string) {
 	self.messageType = messageType
+}
+
+/**
+群组通知消息
+*/
+
+type GroupNtfMessage struct {
+	OperatorUserId string `json:"operatorUserId"` //操作人用户 Id。
+	Operation      string `json:"operation"`      //操作名称，可以自行定义。
+	Data           string `json:"data"`           //群组中各种通知的操作数据，详见“群组通知消息结构数据说明”。
+	Message        string `json:"message"`        //消息内容。
+	Extra          string `json:"extra"`          //扩展信息，可以放置任意的数据内容，也可以去掉此属性。
+}
+
+func (self *GroupNtfMessage) GetType() string {
+	return "RC:GrpNtf"
 }
 
 /**
