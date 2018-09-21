@@ -291,20 +291,24 @@ type IMessage interface {
 	// SetType(messageType string)
 }
 
+type UserInfo struct {
+	Id          string `json:"id"`
+	Name        string `json:"name"`
+	PortraitUri string `json:"portrait"`
+}
+
 /**
 文本消息。
 */
 type TxtMessage struct {
-	Content     string `json:"content"`
-	Extra       string `json:"extra"`
+	Content     string    `json:"content"`
+	Extra       string    `json:"extra"`
+	UserInfo    *UserInfo `json:"user,omitempty"`
 	messageType string
 }
 
 func (self *TxtMessage) GetType() string {
-	return self.messageType
-}
-func (self *TxtMessage) SetType(messageType string) {
-	self.messageType = messageType
+	return "RC:TxtMsg"
 }
 
 /**
