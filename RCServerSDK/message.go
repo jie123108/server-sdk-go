@@ -121,7 +121,7 @@ func (self *Message) PublishTemplate(templateMessage TemplateMessage) (*CodeSucc
  *
  *@return CodeSuccessReslut
  */
-func (self *Message) PublishSystem(fromUserId string, toUserId []string, txtMessage TxtMessage, pushContent string, pushData string, isPersisted int, isCounted int) (*CodeSuccessReslut, error) {
+func (self *Message) PublishSystem(fromUserId string, toUserId []string, message IMessage, pushContent string, pushData string, isPersisted int, isCounted int) (*CodeSuccessReslut, error) {
 	if fromUserId == "" {
 		return nil, errors.New("Paramer 'fromUserId' is required")
 	}
@@ -137,8 +137,8 @@ func (self *Message) PublishSystem(fromUserId string, toUserId []string, txtMess
 	for _, item := range toUserId {
 		req.Param("toUserId", item)
 	}
-	req.Param("objectName", txtMessage.GetType())
-	jsonStr, err := ToJson(txtMessage)
+	req.Param("objectName", message.GetType())
+	jsonStr, err := ToJson(message)
 	if err != nil {
 		return nil, err
 	}
@@ -149,11 +149,15 @@ func (self *Message) PublishSystem(fromUserId string, toUserId []string, txtMess
 	req.Param("isCounted", strconv.Itoa(isCounted))
 	byteData, err := req.Bytes()
 	if err != nil {
+		glog.Errorf("xxxxxxxxx  req.Bytes() failed! err: %v", err)
 		return nil, err
 	} else {
 		strData := string(byteData)
 		var ret = CodeSuccessReslut{}
 		err = JsonParse(strData, &ret)
+		if err != nil {
+			glog.Errorf("xxxxxxxxx JsonParse(%s) failed! err: %v", strData, err)
+		}
 		return &ret, err
 	}
 }
