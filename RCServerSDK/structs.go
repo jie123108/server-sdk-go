@@ -349,19 +349,17 @@ func (self *VoiceMessage) SetType(messageType string) {
 图文消息。
 */
 type ImgTextMessage struct {
-	Content     string `json:"content"`
-	Extra       string `json:"extra"`
-	Title       string `json:"title"`
-	ImageUri    string `json:"imageUri"`
-	Url         string `json:"url"`
+	Content     string    `json:"content"`
+	Extra       string    `json:"extra"`
+	Title       string    `json:"title"`
+	ImageUri    string    `json:"imageUri"`
+	Url         string    `json:"url"`
+	UserInfo    *UserInfo `json:"user,omitempty"`
 	messageType string
 }
 
 func (self *ImgTextMessage) GetType() string {
-	return self.messageType
-}
-func (self *ImgTextMessage) SetType(messageType string) {
-	self.messageType = messageType
+	return "RC:ImgTextMsg"
 }
 
 /**
