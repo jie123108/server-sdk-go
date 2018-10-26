@@ -363,6 +363,24 @@ func (self *ImgTextMessage) GetType() string {
 }
 
 /**
+图文消息。
+*/
+type MTCardMessage struct {
+	Name        string                 `json:"name"` //消息名称, 比如新建群组通知消息为: NewGroupNotify
+	Title       string                 `json:"title"`
+	Content     string                 `json:"content"`
+	ImageUri    string                 `json:"imageUri"`
+	Url         string                 `json:"url"`
+	UserInfo    *UserInfo              `json:"user,omitempty"`
+	Extra       map[string]interface{} `json:"extra"`
+	messageType string
+}
+
+func (self *MTCardMessage) GetType() string {
+	return "RC:MtCardMsg"
+}
+
+/**
 位置消息。
 */
 type LBSMessage struct {
